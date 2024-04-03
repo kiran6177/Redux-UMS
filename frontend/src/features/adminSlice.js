@@ -4,6 +4,8 @@ import axios from '../Utils/axios'
 export const login = createAsyncThunk('adminLogin',async({email,password},thunkAPI)=>{
     try {
         const response = await axios.post('/admin/login',{email,password})
+        localStorage.setItem('adminToken',JSON.stringify(response.data.token))
+        localStorage.setItem('adminData',JSON.stringify(response.data.adminData))
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data.error)
@@ -13,6 +15,7 @@ export const login = createAsyncThunk('adminLogin',async({email,password},thunkA
 export const getUsers = createAsyncThunk('adminUsers',async(token,thunkAPI)=>{
     try {
         const response = await axios.get('/admin/getusers',{headers:{'Authorization':`Bearer ${token}`}})
+        localStorage.setItem('userData',JSON.stringify(response.data.userData))
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data.error)
@@ -31,6 +34,17 @@ export const edituser = createAsyncThunk('adminEditUser',async ({adminToken,form
 export const blockUnblockUser = createAsyncThunk('adminblockUnblock',async({adminToken,userid},thunkAPI)=>{
     try {
         const response = await axios.get(`/admin/blockunblock?id=${userid}`,{headers:{'Authorization':`Bearer ${adminToken}`}})
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const newUserData = userData.map((user)=>{
+            if(user.id === userid){
+                return {
+                    ...user,
+                    isBlocked:response.data.message
+                }
+            }
+            return user
+        })
+        localStorage.setItem("userData",JSON.stringify(newUserData));
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data.error)
@@ -55,6 +69,9 @@ export const createUser = createAsyncThunk('adminCreateUser',async({adminToken,u
     }
 })
 
+const admin = JSON.parse(localStorage.getItem("adminToken"));
+const adminData = JSON.parse(localStorage.getItem("adminData"));
+const userData = JSON.parse(localStorage.getItem("userData"));
 
  
 const adminSlice = createSlice({
@@ -63,9 +80,9 @@ const adminSlice = createSlice({
         Aloading:false,
         Asuccess:false,
         Aerror:'',
-        adminToken:null,
-        adminData:null,
-        userData:null,
+        adminToken:admin ? admin :null,
+        adminData:adminData ? adminData :null,
+        userData:userData ? userData :null,
         message :''
     },
     reducers:{

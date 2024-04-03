@@ -13,6 +13,8 @@ export const register = createAsyncThunk('userRegister',async (userData,thunkAPI
 export const login = createAsyncThunk('userLogin',async (userData,thunkAPI)=>{
     try {
         const response = await axios.post('/login',userData)
+        localStorage.setItem('userToken',JSON.stringify(response.data.success.token))
+        localStorage.setItem('user',JSON.stringify(response.data.success.data))
         return response.data
     }catch(error) {
         return thunkAPI.rejectWithValue(error.response.data.error)
@@ -22,12 +24,15 @@ export const login = createAsyncThunk('userLogin',async (userData,thunkAPI)=>{
 export const profileUpload = createAsyncThunk('profile',async({userToken,formData},thunkAPI)=>{
     try {
          const response = await axios.post('/profileUpload',formData,{headers:{'Authorization':`Bearer ${userToken}`}})
+        localStorage.setItem('user',JSON.stringify(response.data.success))
          return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data.error)
     }
 })
 
+const userToken = JSON.parse(localStorage.getItem("userToken"));
+const user = JSON.parse(localStorage.getItem("user"));
 
 
 const userAuthSlice = createSlice({
@@ -35,8 +40,8 @@ const userAuthSlice = createSlice({
     initialState:{
         success:false,
         loading:false,
-        user:null,
-        userToken:null,
+        user:user ? user :null,
+        userToken:userToken ? userToken : null,
         error:''
     },
     reducers:{

@@ -84,24 +84,28 @@ function AdminDashboard() {
                     </tbody>
                 </table>
                 <table className='table lg:hidden w-[100%] rounded-sm border-2 border-[#000720] '>
-                    <tbody>
+                    {userData && userData.map(user=>{
+                        return(
+                        <tbody key={user.id}>
                     <tr key="name" className='h-[4rem] border-b-2 border-[#000720]'>
                     <th>Name</th>
-                    <td className='text-center text-wrap'>Kiran</td>
+                    <td className='text-center text-wrap'>{user.name}</td>
                     </tr>
                     <tr key="email" className='h-[4rem] border-b-2 border-[#000720]'>
                     <th>Email</th>
-                    <td className='text-center text-wrap'>kiran123@gmail.com</td>
+                    <td className='text-center text-wrap'>{user.email}</td>
                     </tr>
                     <tr key="mobile" className='h-[4rem] border-b-2 border-[#000720]'>
                     <th>Mobile</th>
-                    <td className='text-center text-wrap'>9078563412</td>
+                    <td className='text-center text-wrap'>{user.mobile}</td>
                     </tr>
                     <tr key="action" className='h-[4rem] border-b-2 border-[#000720]'>
                     <th>Action</th>
-                    <td className='text-center flex flex-col sm:flex-row items-center justify-center my-2 gap-2 '><button className='border-2 border-[#000720] rounded-md bg-[#000720] text-[#FFF8DF] w-[5rem] px-4 py-1 sm:px-6 sm:py-2 '>Block</button><button className='border-2 w-[5rem] border-[#000720] rounded-md bg-[#000720] text-[#FFF8DF] px-4 py-1 sm:px-6 sm:py-2'>Delete</button></td>
+                    <td className='text-center flex flex-col sm:flex-row items-center justify-center my-2 gap-2 '><button onClick={()=>navigate(`/admin/edituser?id=${user.id}`)}  className='border-2 border-[#000720] rounded-md bg-[#000720] text-[#FFF8DF] px-6 py-1'>View</button></td>
                     </tr>
-                    </tbody>
+                    </tbody>)
+                   }) 
+                    }
                 </table>
             </div>
         </div>

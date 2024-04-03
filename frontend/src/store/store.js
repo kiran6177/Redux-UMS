@@ -1,12 +1,7 @@
-import {configureStore} from '@reduxjs/toolkit';
-import { userAuthReducer } from '../features/userSlice';
-import { adminReducer } from '../features/adminSlice';
+import {configureStore } from '@reduxjs/toolkit';
+import rootReducer from '../features/rootReducer';
 
-const store = configureStore({
-    reducer:{
-        userToken:userAuthReducer,
-        adminToken:adminReducer
-    }
-})
+const store = configureStore({reducer:rootReducer})
 
 export default store
+
