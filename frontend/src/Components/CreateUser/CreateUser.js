@@ -39,9 +39,19 @@ function CreateUser() {
     }
 
     const handleSubmit = (e)=>{
-        e.preventDefault()
+        e.preventDefault();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
         if(name.trim().length === 0 || email.trim().length === 0 || mobile.trim().length === 0 || password.trim().length === 0 ){
             toast.error('Fill all the fields.')
+        }else if(!emailRegex.test(email)){
+            toast.error('Enter a valid E-mail.')
+        }else if(mobile.trim().length !== 10){
+            toast.error('Enter valid mobile number.')
+        }else if(password.trim().length < 8){
+            toast.error('Password needs atleast 8 characters.')
+        }else if(!passwordRegex.test(password)){
+            toast.error('Password needs alphabets and digits.')
         }else{
             const user = {name,email,mobile,password}
             dispatch(createUser({adminToken,user}))

@@ -24,18 +24,17 @@ function Login(props) {
     const signedObj = useLocation()
 
     useLayoutEffect(()=>{
+        dispatch(reset())
+    },[dispatch])
+
+
+    useEffect(()=>{
         if(userToken){
             navigate('/')
         }
         if(adminToken){
             navigate('/admin')
         }
-
-        dispatch(reset())
-    },[userToken,adminToken,dispatch,navigate])
-
-
-    useEffect(()=>{
         if(props.type === 'Admin'){
 
         }else{
@@ -46,23 +45,40 @@ function Login(props) {
         }
         if(error){
             toast.error(error)
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('user');
         }
         if(Aerror){
-            toast.error(Aerror)
+            toast.error(Aerror);
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminData');
         }
         if(message === 'Logout'){
             toast.success('Logout Successfully.')
         }
 
-    },[Aerror,error,signedObj,props,message])
+    },[userToken,adminToken,Aerror,error,signedObj,props,message])
 
     const handleClick = async (e)=>{
         try{
         e.preventDefault();
-        if(props.type === 'Admin'){
-            dispatch(adminLogin({email,password}))
-        }else{
-            dispatch(login({email,password}))
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
+        if(!email.trim().length ||!password.trim().length ){
+            toast.error('Fill all the fields.')
+        }else if(!emailRegex.test(email)){
+            toast.error('Enter a valid E-mail.')
+        }else if(password.trim().length < 8){
+            toast.error('Password needs atleast 8 characters.')
+        }else if(!passwordRegex.test(password)){
+            toast.error('Password needs alphabets and digits.')
+        }
+        else{
+            if(props.type === 'Admin'){
+                dispatch(adminLogin({email,password}))
+            }else{
+                dispatch(login({email,password}))
+            }
         }
         }catch(err){
             console.log(err.message);

@@ -28,8 +28,10 @@ function UserProfile() {
 
     const handleChange = ()=>{
         setHide(false)
-        setImage(refObj.current.files[0]);
-        setImageURL(URL.createObjectURL(refObj.current.files[0]))
+        if(refObj.current.files[0]){
+            setImage(refObj.current.files[0]);
+            setImageURL(URL.createObjectURL(refObj.current.files[0]))
+        }
     }
 
     const {userToken,user,success,error,loading} = useSelector((state)=>state.userToken)
@@ -55,12 +57,16 @@ function UserProfile() {
                 toast.error('Session timeout!! Please Login Again.')
                 setTimeout(()=>{
                     dispatch(tokenReset())
+                    localStorage.removeItem('userToken');
+                    localStorage.removeItem('user');
                     navigate('/login',{replace:true})
                 },2000)
             }else{
                 toast.error('You are temporarily suspended. Please contact officials.');
                 setTimeout(()=>{
-                    dispatch(tokenReset())
+                    dispatch(tokenReset());
+                    localStorage.removeItem('userToken');
+                    localStorage.removeItem('user');
                     navigate('/login',{replace:true})
                 },2000)
             }
@@ -69,12 +75,23 @@ function UserProfile() {
     },[userToken,user,dispatch,navigate,success,error])
 
     const handleUpload = ()=>{
-        const formData = new FormData()
-        formData.append('image',image)
-        formData.append('name',newname)
-        formData.append('email',newemail)
-        formData.append('mobile',newmobile)
-        dispatch(profileUpload({userToken,formData}))
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!newname.trim().length || !newemail.trim().length || !newmobile.trim().length ){
+            toast.error('Fill all the fields.')
+        }else if(!emailRegex.test(newemail)){
+            toast.error('Enter a valid E-mail.')
+        }else if(newmobile.trim().length !== 10){
+            toast.error('Enter valid mobile number.')
+        }else if(!imageurl){
+            toast.error('Please choose a profile picture.')
+        }else{
+            const formData = new FormData()
+            formData.append('image',image)
+            formData.append('name',newname)
+            formData.append('email',newemail)
+            formData.append('mobile',newmobile)
+            dispatch(profileUpload({userToken,formData}))
+        }
     }
 
   return (

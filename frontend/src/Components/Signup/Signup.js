@@ -24,7 +24,19 @@ function Signup() {
 
     const handleSubmit = async (e)=>{
         e.preventDefault()
-        if(password !== cpassword){
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
+        if(!name.trim().length || !email.trim().length || !mobile.trim().length || !password.trim().length || !cpassword.trim().length){
+            toast.error('Fill all the fields.')
+        }else if(!emailRegex.test(email)){
+            toast.error('Enter a valid E-mail.')
+        }else if(mobile.trim().length !== 10){
+            toast.error('Enter valid mobile number.')
+        }else if(password.trim().length < 8){
+            toast.error('Password needs atleast 8 characters.')
+        }else if(!passwordRegex.test(password)){
+            toast.error('Password needs alphabets and digits.')
+        }else if(password !== cpassword){
             toast.error('Password Mismatch')
         }
         else{

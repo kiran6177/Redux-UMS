@@ -87,14 +87,23 @@ function EditUser() {
     const handleUpload = ()=>{
         const userid = searchParams.get('id');
         const formdata = new FormData();
-        formdata.append('id',userid)
-        formdata.append('name',newname);
-        formdata.append('email',newemail);
-        formdata.append('mobile',newmobile);
-        if(image){
-            formdata.append('image',image)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!newname.trim().length || !newemail.trim().length || !newmobile.trim().length ){
+            toast.error('Fill all the fields.')
+        }else if(!emailRegex.test(newemail)){
+            toast.error('Enter a valid E-mail.')
+        }else if(newmobile.trim().length !== 10){
+            toast.error('Enter valid mobile number.')
+        }else{
+            formdata.append('id',userid)
+            formdata.append('name',newname);
+            formdata.append('email',newemail);
+            formdata.append('mobile',newmobile);
+            if(image){
+                formdata.append('image',image)
+            }
+            dispatch(edituser({adminToken,formdata}))
         }
-        dispatch(edituser({adminToken,formdata}))
     }
 
     const handleClick = ()=>{
