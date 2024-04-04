@@ -24,6 +24,7 @@ function UserHome() {
             <h5 className='text-2xl my-4 text-left w-[90%] md:w-[50%]'>Name : {user && user.name}</h5>
             <h5 className='text-2xl my-4 text-left w-[90%] md:w-[50%]'>Email : {user && user.email}</h5>
             <h5 className='text-2xl my-4 text-left w-[90%] md:w-[50%]'>Phone : {user && user.mobile}  </h5>
+            <h5 className='text-2xl my-4 text-left w-[90%] md:w-[50%]'>Age : {user && user.age}  </h5>
             <Link to={'/profile'} className='bg-[#000720] px-8 py-2 border-2 border-[#000720] text-[#FFF8DF] rounded-md'>Edit Profile</Link>
         </div>
     </div>

@@ -10,6 +10,7 @@ function EditUser() {
     const [newname,setNewName] = useState('');
     const [newemail,setNewEmail] = useState('');
     const [newmobile,setNewMobile] = useState('');
+    const [newage,setNewAge] = useState('');
     const [isblocked,setIsblocked] = useState(false);
     const [image,setImage] = useState(null);
     const [imageurl,setImageURL] = useState(null);
@@ -43,6 +44,7 @@ function EditUser() {
                 setNewName(userData[index].name)
                 setNewEmail(userData[index].email)
                 setNewMobile(userData[index].mobile)
+                setNewAge(userData[index].age)
                 setImageURL(userData[index].image)
                 setIsblocked(userData[index].isBlocked)
             }
@@ -88,7 +90,7 @@ function EditUser() {
         const userid = searchParams.get('id');
         const formdata = new FormData();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(!newname.trim().length || !newemail.trim().length || !newmobile.trim().length ){
+        if(!newname.trim().length || !newemail.trim().length || !newmobile.trim().length || !newage.toString().trim().length ){
             toast.error('Fill all the fields.')
         }else if(!emailRegex.test(newemail)){
             toast.error('Enter a valid E-mail.')
@@ -99,6 +101,7 @@ function EditUser() {
             formdata.append('name',newname);
             formdata.append('email',newemail);
             formdata.append('mobile',newmobile);
+            formdata.append('age',newage);
             if(image){
                 formdata.append('image',image)
             }
@@ -136,6 +139,7 @@ function EditUser() {
             <div className='flex w-[90%] md:w-[40%] mt-10 mb-2'><h5 className='text-2xl my-4 text-left w-[20%]'>Name : </h5><input className='w-[80%] border-2 border-[#000720] rounded-md px-6' type="text" value={newname} onChange={(e)=>{ setNewName(e.target.value)}} /></div>
             <div className='flex w-[90%] md:w-[40%] my-2'><h5 className='text-2xl my-4 text-left w-[20%]'>Email : </h5><input className='w-[80%] border-2 border-[#000720] rounded-md px-6' type="text" value={newemail} onChange={(e)=>{ setNewEmail(e.target.value)}} /></div>
             <div className='flex w-[90%] md:w-[40%] my-2'><h5 className='text-2xl my-4 text-left w-[20%]'>Phone :</h5><input className='w-[80%] border-2 border-[#000720] rounded-md px-6' type="text" value={newmobile} onChange={(e)=>{ setNewMobile(e.target.value)}}  /></div>
+            <div className='flex w-[90%] md:w-[40%] my-2'><h5 className='text-2xl my-4 text-left w-[20%]'>Age :</h5><input className='w-[80%] border-2 border-[#000720] rounded-md px-6' type="text" value={newage} onChange={(e)=>{ setNewAge(e.target.value)}}  /></div>
             <div className='flex gap-4 mt-6'>
             {isblocked ? <button onClick={handleBlocking}  className='border-2 border-[#000720] rounded-md bg-[#000720] text-[#FFF8DF] px-8 py-2'>Unblock</button> :<button onClick={handleBlocking} className='border-2 border-[#000720] rounded-md bg-[#000720] text-[#FFF8DF] px-8 py-2'>Block</button> }
             <button onClick={handleDelete} className='border-2 border-[#000720] rounded-md bg-[#000720] text-[#FFF8DF] px-8 py-2'>Delete</button>

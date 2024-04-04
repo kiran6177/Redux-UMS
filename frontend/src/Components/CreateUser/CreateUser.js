@@ -10,6 +10,7 @@ function CreateUser() {
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [mobile,setMobile] = useState('');
+    const [age,setAge] = useState('');
     const [password,setPassword] = useState('');
 
     const {Aloading,Asuccess,Aerror,adminToken,message} = useSelector((state)=>state.adminToken);
@@ -42,7 +43,7 @@ function CreateUser() {
         e.preventDefault();
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
-        if(name.trim().length === 0 || email.trim().length === 0 || mobile.trim().length === 0 || password.trim().length === 0 ){
+        if(name.trim().length === 0 || email.trim().length === 0 || mobile.trim().length === 0 || password.trim().length === 0 || age.toString().trim().length === 0){
             toast.error('Fill all the fields.')
         }else if(!emailRegex.test(email)){
             toast.error('Enter a valid E-mail.')
@@ -53,7 +54,7 @@ function CreateUser() {
         }else if(!passwordRegex.test(password)){
             toast.error('Password needs alphabets and digits.')
         }else{
-            const user = {name,email,mobile,password}
+            const user = {name,email,mobile,age,password}
             dispatch(createUser({adminToken,user}))
         }
     }
@@ -75,6 +76,10 @@ function CreateUser() {
             <div className='my-8'>
                 <label>Mobile</label>
                 <input type="number" name='mobile' value={mobile} onChange={(e)=>setMobile(e.target.value)} className='w-[100%] p-2 border-2 border-[#000720] rounded-md bg-[#FFF8DF]' />
+            </div>
+            <div className='my-8'>
+                <label>Age</label>
+                <input type="number" name='age' value={age} onChange={(e)=>setAge(e.target.value)} className='w-[100%] p-2 border-2 border-[#000720] rounded-md bg-[#FFF8DF]' />
             </div>
             <div className='my-8'>
                 <label>Password</label>

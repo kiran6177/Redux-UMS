@@ -25,6 +25,7 @@ const login = async (req,res,next)=>{
                         name:userExist.dataValues.name,
                         email:userExist.dataValues.email,
                         mobile:userExist.dataValues.mobile,
+                        age:userExist.dataValues.age,
                         image:userExist.dataValues.image
                     }
                     if(token){
@@ -49,7 +50,7 @@ const login = async (req,res,next)=>{
 
 const signup = async (req,res,next)=>{
     try {
-        const {name,email,mobile,password,cpassword} = req.body
+        const {name,email,mobile,age,password,cpassword} = req.body
         if(password === cpassword){
             const userExist = await User.findAll({
                 where:{
@@ -62,6 +63,7 @@ const signup = async (req,res,next)=>{
                     id:uuidv4(),
                     name,
                     email,
+                    age,
                     mobile,
                     password:hashedPassword
                 })
@@ -90,6 +92,7 @@ const profileUpdate = async (req,res,next)=>{
          await User.update({name:req.body.name,
             email:req.body.email,
             mobile:req.body.mobile,
+            age:req.body.age,
             image:proImageName},{
             where:{
                 id:req.user
@@ -98,7 +101,8 @@ const profileUpdate = async (req,res,next)=>{
         }else{
             await User.update({name:req.body.name,
                 email:req.body.email,
-                mobile:req.body.mobile,},{
+                mobile:req.body.mobile,
+                age:req.body.age},{
                 where:{
                     id:req.user
                 }
@@ -110,6 +114,7 @@ const profileUpdate = async (req,res,next)=>{
             name:udata.dataValues.name,
             email:udata.dataValues.email,
             mobile:udata.dataValues.mobile,
+            age:udata.dataValues.age,
             image:udata.dataValues.image
         }
         res.status(200).json({success:user})

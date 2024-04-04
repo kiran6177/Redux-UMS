@@ -56,6 +56,7 @@ function AdminDashboard() {
             if(user.name.toLowerCase().includes(search.toLowerCase())){
                 return user
             }
+            return null
         })
         setUsers(searchdata)
     }
@@ -79,7 +80,7 @@ function AdminDashboard() {
             <h5 className='text-2xl my-4 text-left w-[90%] md:w-[50%]'>Phone :  {adminData && adminData.mobile}</h5>
             <button onClick={handleGetUser} className='bg-[#000720] px-8 py-2 border-2 border-[#000720] text-[#FFF8DF] rounded-md'>{hide ? 'View Users' : 'Hide Users'}</button>
 
-            <div className={hide ?'opacity-0 h-0 transition-all duration-100 ease-in' :'w-[100%] h-auto my-8 transition-all duration-500 ease-linear'}>
+            <div className={hide ?'overflow-hidden opacity-0 h-0 transition-all duration-100 ease-in' :'block w-[100%] h-auto my-8 transition-all duration-500 ease-linear'}>
                 <div className='my-4 flex gap-4'><input type="text" value={search} onChange={(e)=>setSearch(e.target.value)} placeholder='Search for users.' className='border-2 border-[#000720] py-2 w-[40%] px-4 rounded-md bg-[#FFF8DF]' /><button onClick={handleSearch} className='py-2 px-6 bg-[#000720] rounded-md text-[#FFF8DF]'>Search</button></div>
                 <table className='hidden lg:table  w-[100%] rounded-sm border-2 border-[#000720] '>
                     <thead>
@@ -87,6 +88,7 @@ function AdminDashboard() {
                     <th>Name</th>
                     <th>E-mail</th>
                     <th>Mobile</th>
+                    <th>Age</th>
                     <th>Action</th>
                     </tr>
                     </thead>
@@ -98,6 +100,7 @@ function AdminDashboard() {
                                 <td className='text-center'>{user.name}</td>
                                 <td className='text-center'>{user.email}</td>
                                 <td className='text-center'>{user.mobile}</td>
+                                <td className='text-center'>{user.age}</td>
                                 <td className='text-center '>
                                 <button onClick={()=>navigate(`/admin/edituser?id=${user.id}`)}  className='border-2 border-[#000720] rounded-md bg-[#000720] text-[#FFF8DF] px-6 py-1'>View</button></td>
                             </tr>
@@ -121,6 +124,10 @@ function AdminDashboard() {
                     <tr key="mobile" className='h-[4rem] border-b-2 border-[#000720]'>
                     <th>Mobile</th>
                     <td className='text-center text-wrap'>{user.mobile}</td>
+                    </tr>
+                    <tr key="mobile" className='h-[4rem] border-b-2 border-[#000720]'>
+                    <th>Age</th>
+                    <td className='text-center text-wrap'>{user.age}</td>
                     </tr>
                     <tr key="action" className='h-[4rem] border-b-2 border-[#000720]'>
                     <th>Action</th>

@@ -8,6 +8,7 @@ import SyncLoader from 'react-spinners/SyncLoader';
 function Signup() {
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
+    const [age,setAge] = useState('');
     const [mobile,setMobile] = useState('');
     const [password,setPassword] = useState('');
     const [cpassword,setCpassword] = useState('');
@@ -40,7 +41,7 @@ function Signup() {
             toast.error('Password Mismatch')
         }
         else{
-            const userData = {name,email,mobile,password,cpassword}
+            const userData = {name,email,mobile,age,password,cpassword}
             dispatch(register(userData))
         }
     }
@@ -68,6 +69,10 @@ function Signup() {
             <div className='my-8'>
                 <label>Email</label>
                 <input type="text" name='email' value={email} onChange={(e)=>setEmail(e.target.value)} className='w-[100%] p-2 border-2 border-[#000720] rounded-md bg-[#FFF8DF]' />
+            </div>
+            <div className='my-8'>
+                <label>Age</label>
+                <input type="number" name='mobile' value={age} onChange={(e)=>setAge(e.target.value)} className='w-[100%] p-2 border-2 border-[#000720] rounded-md bg-[#FFF8DF]' />
             </div>
             <div className='my-8'>
                 <label>Mobile</label>

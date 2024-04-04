@@ -9,6 +9,7 @@ function UserProfile() {
     const [newname,setNewName] = useState('');
     const [newemail,setNewEmail] = useState('');
     const [newmobile,setNewMobile] = useState('');
+    const [newage,setNewAge] = useState('');
     const [hide,setHide] = useState(true)
 
     const [image,setImage] = useState(null);
@@ -50,6 +51,7 @@ function UserProfile() {
             setNewName(user.name)
             setNewEmail(user.email)
             setNewMobile(user.mobile)
+            setNewAge(user.age)
             setImageURL(user.image)
         }
         if(error){
@@ -76,7 +78,8 @@ function UserProfile() {
 
     const handleUpload = ()=>{
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(!newname.trim().length || !newemail.trim().length || !newmobile.trim().length ){
+        console.log(newname,newemail,newmobile,newage);
+        if(!newname.trim().length || !newemail.trim().length || !newmobile.trim().length || !newage.toString().trim().length){
             toast.error('Fill all the fields.')
         }else if(!emailRegex.test(newemail)){
             toast.error('Enter a valid E-mail.')
@@ -90,6 +93,7 @@ function UserProfile() {
             formData.append('name',newname)
             formData.append('email',newemail)
             formData.append('mobile',newmobile)
+            formData.append('age',newage)
             dispatch(profileUpload({userToken,formData}))
         }
     }
@@ -109,6 +113,7 @@ function UserProfile() {
             <div className='flex w-[90%] md:w-[40%] mt-10 mb-2'><h5 className='text-2xl my-4 text-left w-[20%]'>Name : </h5><input className='w-[80%] border-2 border-[#000720] rounded-md px-6' type="text" value={newname} onChange={(e)=>{setHide(false); setNewName(e.target.value)}} /></div>
             <div className='flex w-[90%] md:w-[40%] my-2'><h5 className='text-2xl my-4 text-left w-[20%]'>Email : </h5><input className='w-[80%] border-2 border-[#000720] rounded-md px-6' type="text" value={newemail} onChange={(e)=>{setHide(false); setNewEmail(e.target.value)}} /></div>
             <div className='flex w-[90%] md:w-[40%] my-2'><h5 className='text-2xl my-4 text-left w-[20%]'>Phone :</h5><input className='w-[80%] border-2 border-[#000720] rounded-md px-6' type="text" value={newmobile} onChange={(e)=>{setHide(false); setNewMobile(e.target.value)}}  /></div>
+            <div className='flex w-[90%] md:w-[40%] my-2'><h5 className='text-2xl my-4 text-left w-[20%]'>Age :</h5><input className='w-[80%] border-2 border-[#000720] rounded-md px-6' type="text" value={newage} onChange={(e)=>{setHide(false); setNewAge(e.target.value)}}  /></div>
             <button onClick={handleUpload}  className={hide ? 'hidden' :'border-2 border-[#000720] px-8 py-2 text-[#000720] mt-10'}>Save Changes</button>
             <SyncLoader cssOverride={override} loading={loading}/> 
         </div>

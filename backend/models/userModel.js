@@ -20,6 +20,10 @@ const User = sequelize.define('user',{
         type:DataTypes.STRING,
         allowNull:false
     },
+    age:{
+        type:DataTypes.INTEGER,
+        allowNull:false
+    },
     mobile:{
         type:DataTypes.BIGINT,
         allowNull:false

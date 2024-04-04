@@ -20,6 +20,7 @@ const login = async (req,res,next)=>{
                     name:findAdmin.dataValues.name,
                     email:findAdmin.dataValues.email,
                     mobile:findAdmin.dataValues.mobile,
+                    age:findAdmin.dataValues.age,
                     image:findAdmin.dataValues.image
                 }
                 res.status(200).json({token,adminData})
@@ -53,6 +54,7 @@ const getUsers = async(req,res,next)=>{
             name:user.dataValues.name,
             email:user.dataValues.email,
             mobile:user.dataValues.mobile,
+            age:user.dataValues.age,
             isBlocked:user.dataValues.isBlocked,
             image:user.dataValues.image
            } 
@@ -71,20 +73,22 @@ const getUsers = async(req,res,next)=>{
 
 const editUser = async (req,res,next)=>{
     try {
-        const {id,name,email,mobile} = req.body
+        const {id,name,email,mobile,age} = req.body
         let data
         if(req.file){
             data = {
                 name,
                 email,
                 mobile,
+                age,
                 image:'http://localhost:3000/assets/'+req.file.filename
             }
         }else{
             data = {
                 name,
                 email,
-                mobile
+                mobile,
+                age
             }
         }
         const edited = await User.update(data,
@@ -97,6 +101,7 @@ const editUser = async (req,res,next)=>{
             name:user.dataValues.name,
             email:user.dataValues.email,
             mobile:user.dataValues.mobile,
+            age:user.dataValues.age,
             isBlocked:user.dataValues.isBlocked,
             image:user.dataValues.image
          }
@@ -137,13 +142,14 @@ const deleteUser = async(req,res,next)=>{
 
 const createUser = async (req,res,next)=>{
     try {
-        const {name,email,mobile,password} = req.body
+        const {name,email,mobile,age,password} = req.body
         const hashed = await bcrypt.hash(password,10)
         const create = await User.create({
             id:uuidv4(),
             name,
             email,
             mobile,
+            age,
             password:hashed
         })
         const udata = {
@@ -151,6 +157,7 @@ const createUser = async (req,res,next)=>{
             name:create.dataValues.name,
             email:create.dataValues.email,
             mobile:create.dataValues.mobile,
+            age:create.dataValues.age,
             isBlocked:create.dataValues.isBlocked,
             image:create.dataValues.image
         }
