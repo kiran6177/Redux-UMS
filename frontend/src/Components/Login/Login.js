@@ -45,13 +45,13 @@ function Login(props) {
         }
         if(error){
             toast.error(error)
-            localStorage.removeItem('userToken');
-            localStorage.removeItem('user');
+            // localStorage.removeItem('userToken');
+            // localStorage.removeItem('user');
         }
         if(Aerror){
             toast.error(Aerror);
-            localStorage.removeItem('adminToken');
-            localStorage.removeItem('adminData');
+            // localStorage.removeItem('adminToken');
+            // localStorage.removeItem('adminData');
         }
         if(message === 'Logout'){
             toast.success('Logout Successfully.')

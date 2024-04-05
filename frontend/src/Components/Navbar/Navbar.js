@@ -22,15 +22,15 @@ function Navbar(props) {
   },[userToken,token,adminToken])
 
   const handleAdminLogout = ()=>{
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminData');
-    localStorage.removeItem('userData');
+    // localStorage.removeItem('adminToken');
+    // localStorage.removeItem('adminData');
+    // localStorage.removeItem('userData');
     dispatch(logout())
   }
 
   const handleLogout = ()=>{
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('user');
+    // localStorage.removeItem('userToken');
+    // localStorage.removeItem('user');
     dispatch(tokenReset())
   }
 

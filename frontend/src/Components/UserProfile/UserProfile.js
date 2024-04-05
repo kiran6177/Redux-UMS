@@ -59,16 +59,16 @@ function UserProfile() {
                 toast.error('Session timeout!! Please Login Again.')
                 setTimeout(()=>{
                     dispatch(tokenReset())
-                    localStorage.removeItem('userToken');
-                    localStorage.removeItem('user');
+                    // localStorage.removeItem('userToken');
+                    // localStorage.removeItem('user');
                     navigate('/login',{replace:true})
                 },2000)
             }else{
                 toast.error('You are temporarily suspended. Please contact officials.');
                 setTimeout(()=>{
                     dispatch(tokenReset());
-                    localStorage.removeItem('userToken');
-                    localStorage.removeItem('user');
+                    // localStorage.removeItem('userToken');
+                    // localStorage.removeItem('user');
                     navigate('/login',{replace:true})
                 },2000)
             }
